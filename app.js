@@ -60,11 +60,11 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.delete('/signout', loginout);
+app.post('/signout', loginout);
 
 app.use(auth);
 
-app.use('/', require('./routes/cards'));
+// app.use('/', require('./routes/cards'));
 
 app.use('/', require('./routes/users'));
 
