@@ -64,7 +64,7 @@ app.post('/signout', loginout);
 
 app.use(auth);
 
-// app.use('/', require('./routes/cards'));
+app.use('/', require('./routes/movies'));
 
 app.use('/', require('./routes/users'));
 
