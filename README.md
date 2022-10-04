@@ -1,3 +1,3 @@
 # movies-explorer-api
 
-1 Новая запись
+Домен сервера: https://api.movies.tptechnician.nomoredomains.icu
