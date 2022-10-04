@@ -37,7 +37,10 @@ main();
 
 app.use(cors({
   origin: [
+    'http://movies.tptechnician.nomoredomains.icu',
+    'https://movies.tptechnician.nomoredomains.icu',
     'http://localhost:3001',
+    'http://localhost:3000',
   ],
 }));
 
