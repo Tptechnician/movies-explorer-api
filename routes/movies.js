@@ -1,5 +1,4 @@
 const express = require('express');
-const isUrl = require('validator/lib/isURL');
 
 const movieRouter = express.Router();
 const { celebrate, Joi } = require('celebrate');
@@ -9,15 +8,6 @@ const {
   createMovie,
   deleteMovie,
 } = require('../controllers/movies');
-
-const { ErrorBadReq } = require('../errors/errorBadReq');
-
-const urlValidator = (value) => {
-  if (!isUrl(value)) {
-    throw new ErrorBadReq('Ошибка валидации url адреса');
-  }
-  return value;
-};
 
 movieRouter.get('/movies', getMovie);
 
@@ -30,9 +20,9 @@ movieRouter.post('/movies', celebrate({
     description: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    image: Joi.string().required().custom(urlValidator),
-    trailerLink: Joi.string().required().custom(urlValidator),
-    thumbnail: Joi.string().required().custom(urlValidator),
+    image: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
+    trailerLink: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
+    thumbnail: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
     movieId: Joi.number().required(),
   }),
 }), createMovie);
