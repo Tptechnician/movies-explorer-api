@@ -1,7 +1,8 @@
 const express = require('express');
-const { celebrate, Joi } = require('celebrate');
 
 const usersRouter = express.Router();
+
+const { validateUpdateUser } = require('../middlewares/reqValidation');
 
 const {
   updateUser,
@@ -10,11 +11,6 @@ const {
 
 usersRouter.get('/users/me', getUser);
 
-usersRouter.patch('/users/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
-  }),
-}), updateUser);
+usersRouter.patch('/users/me', validateUpdateUser, updateUser);
 
 module.exports = usersRouter;

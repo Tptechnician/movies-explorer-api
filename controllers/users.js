@@ -82,9 +82,10 @@ module.exports.login = (req, res, next) => {
             res.cookie('jwt', token, { httpOnly: true, samSite: true });
             res.send({ token });
           } else {
-            res.status(401).send({ message: 'Неправильный пароль или email' });
+            throw new NotAuthError('Неправильный пароль или email');
           }
-        });
+        })
+        .catch(next);
     })
     .catch(next);
 };

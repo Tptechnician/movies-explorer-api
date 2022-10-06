@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
-const { PORT = 3000 } = process.env;
+const { PORT, MONGO_DB_URL, NODE_ENV } = process.env;
 
 const app = express();
 const { errorHandler } = require('./errors/errorHandler');
@@ -13,7 +13,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 async function main() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+    await mongoose.connect(NODE_ENV === 'production' ? MONGO_DB_URL : 'mongodb://localhost:27017/moviesdb', {
       useNewUrlParser: true,
       useUnifiedTopology: false,
     });
