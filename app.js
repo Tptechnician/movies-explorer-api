@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
-const { PORT, MONGO_DB_URL, NODE_ENV } = process.env;
+const { PORT = 3000, MONGO_DB_URL, NODE_ENV } = process.env;
 
 const app = express();
 const { errorHandler } = require('./errors/errorHandler');
