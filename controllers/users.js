@@ -44,7 +44,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(id, { name, email }, { new: true, runValidators: true })
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'MongoServerError' || err.name === 'ValidationError') {
         throw new ErrorBadReq('Некорректные данные пользователя');
       }
     })

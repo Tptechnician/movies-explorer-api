@@ -1,4 +1,5 @@
 const express = require('express');
+const isUrl = require('validator/lib/isURL');
 
 const movieRouter = express.Router();
 const { celebrate, Joi } = require('celebrate');
@@ -20,9 +21,24 @@ movieRouter.post('/movies', celebrate({
     description: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    image: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
-    trailerLink: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
-    thumbnail: Joi.string().required().regex(/^(https?:\/\/)?([\da-z.-]+)([a-z.]{2,6})([/\w.-]*)*\/?$/),
+    image: Joi.string().required().custom((url, helpers) => {
+      if (isUrl(url)) {
+        return url;
+      }
+      return helpers.message('Некорректный url адресс');
+    }),
+    trailerLink: Joi.string().required().custom((url, helpers) => {
+      if (isUrl(url)) {
+        return url;
+      }
+      return helpers.message('Некорректный url адресс');
+    }),
+    thumbnail: Joi.string().required().custom((url, helpers) => {
+      if (isUrl(url)) {
+        return url;
+      }
+      return helpers.message('Некорректный url адресс');
+    }),
     movieId: Joi.number().required(),
   }),
 }), createMovie);
