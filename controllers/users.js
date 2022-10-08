@@ -28,7 +28,7 @@ module.exports.createUser = (req, res, next) => {
             password: hash,
           }).then((newUser) => res.send(newUser)))
           .catch((err) => {
-            if (err.name === 'ValidationError') {
+            if (err.code === 11000) {
               throw new ErrorBadReq('Некорректные данные пользователя');
             }
           })
@@ -44,15 +44,15 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(id, { name, email }, { new: true, runValidators: true })
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
-      if (err.name === 'MongoServerError' || err.name === 'ValidationError') {
-        throw new ErrorBadReq('Некорректные данные пользователя');
+      if (err.code === 11000) {
+        throw new EroorExistingUser('Некорректные данные пользователя');
       }
     })
     .catch(next);
 };
 
 module.exports.getUser = (req, res, next) => {
-  const id = jwt.decode(req.cookies.jwt)._id;
+  const id = req.user._id;
 
   User.findById(id)
     .then((user) => {
